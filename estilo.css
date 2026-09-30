@@ -9,12 +9,12 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
+    overflow-x: hidden;
     background:
         radial-gradient(circle at top, #40152f 0%, transparent 40%),
         linear-gradient(135deg, #080808, #1b0618, #071525);
     color: white;
     font-family: Georgia, "Times New Roman", serif;
-    overflow-x: hidden;
 }
 
 .inicio {
@@ -25,6 +25,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    overflow: hidden;
 }
 
 .etiqueta {
@@ -32,7 +33,7 @@ body {
     font-family: Arial, sans-serif;
     font-size: 14px;
     font-weight: bold;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
 }
 
 h1 {
@@ -45,15 +46,68 @@ h1 {
         0 0 30px #ff1744;
 }
 
+.pista {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    margin: 20px 0;
+    overflow: hidden;
+    border-bottom: 5px solid #555;
+}
+
+.pista::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    border-bottom: 3px dashed #aaa;
+}
+
 .auto {
-    margin: 30px 0;
-    font-size: clamp(90px, 25vw, 180px);
-    filter: drop-shadow(0 0 18px #ff3158);
-    transition: transform 0.2s;
+    position: absolute;
+    z-index: 2;
+    left: -300px;
+    bottom: 35px;
+    min-width: 270px;
+    padding: 25px 18px;
+    border: 4px solid #ff3158;
+    border-radius: 45% 12px 12px 20%;
+    background: linear-gradient(135deg, #e00035, #570014);
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    letter-spacing: 2px;
+    box-shadow:
+        0 0 15px #ff3158,
+        0 15px 0 #111;
+}
+
+.auto::before,
+.auto::after {
+    content: "";
+    position: absolute;
+    bottom: -18px;
+    width: 35px;
+    height: 35px;
+    border: 5px solid #777;
+    border-radius: 50%;
+    background: #111;
+}
+
+.auto::before {
+    left: 35px;
+}
+
+.auto::after {
+    right: 35px;
 }
 
 .auto.moviendose {
-    animation: conducir 1.5s ease-in forwards;
+    animation: conducir 2.5s linear forwards;
 }
 
 .instruccion {
@@ -84,6 +138,11 @@ button:active {
     transform: scale(0.95);
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .carta {
     display: none;
     width: min(92%, 850px);
@@ -104,8 +163,11 @@ button:active {
 
 .sobre {
     margin-bottom: 15px;
+    color: #ff3158;
     text-align: center;
-    font-size: 80px;
+    font-family: Arial, sans-serif;
+    font-size: 55px;
+    font-weight: bold;
     animation: flotar 2s ease-in-out infinite;
 }
 
@@ -138,10 +200,22 @@ button:active {
 .corazon {
     position: fixed;
     z-index: 10;
-    bottom: 80px;
+    bottom: 15vh;
     pointer-events: none;
-    font-size: 28px;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
     animation: humo 3.5s linear forwards;
+}
+
+.corazon.rojo {
+    color: #ff1744;
+    text-shadow: 0 0 12px #ff1744;
+}
+
+.corazon.azul {
+    color: #2196f3;
+    text-shadow: 0 0 12px #2196f3;
 }
 
 @keyframes humo {
@@ -158,7 +232,7 @@ button:active {
         opacity: 0;
         transform:
             translate(
-                calc((var(--direccion) * 1px)),
+                calc(var(--direccion) * 1px),
                 -100vh
             )
             scale(1.5)
@@ -168,15 +242,18 @@ button:active {
 
 @keyframes conducir {
     0% {
-        transform: translateX(0) scale(1);
+        left: -300px;
+        transform: scaleX(1);
     }
 
-    45% {
-        transform: translateX(-20px) scale(1.05);
+    15% {
+        left: -250px;
+        transform: scaleX(1);
     }
 
     100% {
-        transform: translateX(110vw) scale(1.05);
+        left: calc(100% + 50px);
+        transform: scaleX(1);
     }
 }
 
@@ -210,5 +287,10 @@ button:active {
 
     .firma {
         text-align: center;
+    }
+
+    .auto {
+        min-width: 240px;
+        font-size: 18px;
     }
 }

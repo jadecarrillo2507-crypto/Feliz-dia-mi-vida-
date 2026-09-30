@@ -1,10 +1,21 @@
+let animacionIniciada = false;
+
 function arrancar() {
+    if (animacionIniciada) {
+        return;
+    }
+
+    animacionIniciada = true;
+
     const inicio = document.getElementById("inicio");
     const auto = document.getElementById("auto");
     const carta = document.getElementById("carta");
+    const boton = document.getElementById("botonArrancar");
+
+    boton.disabled = true;
+    boton.textContent = "En marcha...";
 
     auto.classList.add("moviendose");
-
     crearCorazones();
 
     setTimeout(function () {
@@ -15,22 +26,33 @@ function arrancar() {
             top: 0,
             behavior: "smooth"
         });
-    }, 1800);
+    }, 3000);
 }
 
 function crearCorazones() {
     const contenedor = document.getElementById("corazones");
-    const cantidad = 45;
+    const cantidad = 55;
 
     for (let i = 0; i < cantidad; i++) {
         const corazon = document.createElement("div");
 
-        corazon.className = "corazon";
-        corazon.textContent = i % 2 === 0 ? "??" : "??";
+        corazon.className =
+            i % 2 === 0
+                ? "corazon rojo"
+                : "corazon azul";
 
-        corazon.style.left = Math.random() * 100 + "vw";
-        corazon.style.bottom = 5 + Math.random() * 25 + "vh";
-        corazon.style.animationDelay = Math.random() * 1.8 + "s";
+        // Se usa un carácter simple para evitar signos de interrogación.
+        corazon.textContent = "♥";
+
+        corazon.style.left =
+            Math.random() * 100 + "vw";
+
+        corazon.style.bottom =
+            5 + Math.random() * 25 + "vh";
+
+        corazon.style.animationDelay =
+            Math.random() * 1.8 + "s";
+
         corazon.style.setProperty(
             "--direccion",
             Math.floor(Math.random() * 240) - 120
@@ -38,7 +60,7 @@ function crearCorazones() {
 
         contenedor.appendChild(corazon);
 
-        setTimeout(function() {
+        setTimeout(function () {
             corazon.remove();
         }, 5500);
     }
