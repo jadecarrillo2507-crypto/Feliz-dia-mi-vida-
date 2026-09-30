@@ -1,67 +1,32 @@
-let animacionIniciada = false;
+const inicio = document.getElementById("inicio");
+const pagina = document.getElementById("pagina");
+const auto = document.getElementById("auto");
+const humoRojo = document.getElementById("humoRojo");
+const humoAzul = document.getElementById("humoAzul");
+const carta = document.getElementById("carta");
 
-function arrancar() {
-    if (animacionIniciada) {
-        return;
-    }
+let iniciado = false;
 
-    animacionIniciada = true;
+function comenzar() {
+  if (iniciado) {
+    return;
+  }
 
-    const inicio = document.getElementById("inicio");
-    const auto = document.getElementById("auto");
-    const carta = document.getElementById("carta");
-    const boton = document.getElementById("botonArrancar");
+  iniciado = true;
 
-    boton.disabled = true;
-    boton.textContent = "En marcha...";
+  inicio.classList.add("oculto");
+  pagina.classList.add("visible");
 
-    auto.classList.add("moviendose");
-    crearCorazones();
+  setTimeout(function() {
+    auto.classList.add("arrancando");
+    humoRojo.classList.add("activo");
+    humoAzul.classList.add("activo");
+  }, 700);
 
-    setTimeout(function () {
-        inicio.style.display = "none";
-        carta.classList.add("visible");
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }, 3000);
+  setTimeout(function() {
+    carta.classList.add("visible");
+  }, 5600);
 }
 
-function crearCorazones() {
-    const contenedor = document.getElementById("corazones");
-    const cantidad = 55;
-
-    for (let i = 0; i < cantidad; i++) {
-        const corazon = document.createElement("div");
-
-        corazon.className =
-            i % 2 === 0
-                ? "corazon rojo"
-                : "corazon azul";
-
-        // Se usa un carácter simple para evitar signos de interrogación.
-        corazon.textContent = "♥";
-
-        corazon.style.left =
-            Math.random() * 100 + "vw";
-
-        corazon.style.bottom =
-            5 + Math.random() * 25 + "vh";
-
-        corazon.style.animationDelay =
-            Math.random() * 1.8 + "s";
-
-        corazon.style.setProperty(
-            "--direccion",
-            Math.floor(Math.random() * 240) - 120
-        );
-
-        contenedor.appendChild(corazon);
-
-        setTimeout(function () {
-            corazon.remove();
-        }, 5500);
-    }
-}
+document.addEventListener("click", comenzar);
+document.addEventListener("touchstart", comenzar);
